@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Md Mizanur Rahman - Pharma Technologist & Researcher</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+          },
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              200: '#a7f3d0',
+              300: '#6ee7b7',
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              800: '#065f46',
+              900: '#064e3b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+ html { scroll-behavior: smooth; }
+    .glass {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    .fade-in { opacity: 0; transform: translateY(16px); transition: all 0.7s ease-out; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+
+  <!-- Navigation -->
+  <nav id="navbar" class="glass fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="#hero" class="text-xl font-serif font-bold text-slate-900 tracking-tight">M.M.R.</a>
+ <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
+        <a href="#about" class="hover:text-brand-700 transition-colors">About</a>
+        <a href="#articles" class="hover:text-brand-700 transition-colors">Articles</a>
+        <a href="#gallery" class="hover:text-brand-700 transition-colors">Photos</a>
+        <a href="#projects" class="hover:text-brand-700 transition-colors">Projects</a>
+        <a href="#contact" class="hover:text-brand-700 transition-colors">Contact</a>
+      </div>
+      <div class="flex items-center gap-4">
+        <button id="authBtn" onclick="openAuth()" class="text-sm font-semibold px-5 py-2 rounded-full bg-slate-900 text-white hover:bg-slate-800 transition-all shadow-md hover:shadow-lg">
+          Login
+        </button>
+        <button class="md:hidden text-slate-700" onclick="toggleMobileMenu()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8h16M4 16h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <div id="mobileMenu" class="hidden md:hidden border-t border-slate-100 bg-white/95 px-6 py-4 flex-col gap-3 text-sm font-medium text-slate-600">
+      <a href="#about" onclick="toggleMobileMenu()">About</a>
+      <a href="#articles" onclick="toggleMobileMenu()">Articles</a>
+      <a href="#gallery" onclick="toggleMobileMenu()">Photos</a>
+      <a href="#projects" onclick="toggleMobileMenu()">Projects</a>
+      <a href="#contact" onclick="toggleMobileMenu()">Contact</a>
+    </div>
+  </nav>
+
+  <!-- Auth Modal -->
+  <div id="authModal" class="fixed inset-0 z-[100] bg-black/40 hidden items-center justify-center p-4 backdrop-blur-sm">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-8 relative">
+      <button onclick="closeAuth()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l8 8M14 6l-8 8"/></svg>
+      </button>
+      <h3 class="text-2xl font-serif font-bold text-slate-900 mb-1" id="authTitle">Welcome Back</h3>
+      <p class="text-sm text-slate-500 mb-6">Login to comment on articles and manage content.</p>
+      <form id="authForm" onsubmit="handleAuth(event)">
+        <div class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold uppercase text-slate-500 mb-1.5">Username</label>
+            <input type="text" id="authUsername" required class="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 outline-none transition-all" placeholder="Enter username">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold uppercase text-slate-500 mb-1.5">Password</label>
+            <input type="password" id="authPassword" required class="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 outline-none transition-all" placeholder="••••••••">
+          </div>
+          <button type="submit" class="w-full py-2.5 rounded-lg bg-brand-600 text-white font-semibold hover:bg-brand-700 transition-colors shadow-md" id="authActionBtn">Login</button>
+        </div>
+      </form>
+      <p class="text-center text-xs text-slate-400 mt-6">No account? <button onclick="toggleAuthMode()" class="text-brand-600 font-semibold hover:underline">Create one</button></p>
+    </div>
+  </div>
+
+  <!-- Admin Panel Modal -->
+  <div id="adminModal" class="fixed inset-0 z-[100] bg-black/40 hidden items-center justify-center p-4 backdrop-blur-sm">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8 relative max-h-[90vh] overflow-y-auto">
+      <button onclick="closeAdmin()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l8 8M14 6l-8 8"/></svg>
+      </button>
+      <h3 class="text-2xl font-serif font-bold text-slate-900 mb-1">Admin Dashboard</h3>
+      <p class="text-sm text-slate-500 mb-6">Add new articles or photos to your site.</p>
+      <div class="space-y-6">
+        <div class="p-5 rounded-xl bg-slate-50 border border-slate-100">
+          <h4 class="font-semibold text-slate-800 mb-3">New Article</h4>
+          <form onsubmit="addNewArticle(event)" class="space-y-3">
+            <input type="text" id="newArticleTitle" required placeholder="Title" class="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:border-brand-500 focus:ring-1 focus:ring-brand-200 outline-none">
+            <textarea id="newArticleBody" required rows="4" placeholder="Write your article content..." class="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:border-brand-500 focus:ring-1 focus:ring-brand-200 outline-none resize-none"></textarea>
+ <input type="text" id="newArticleTags" placeholder="Tags (comma separated)" class="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:border-brand-500 focus:ring-1 focus:ring-brand-200 outline-none">
+            <button type="submit" class="px-4 py-2 rounded-lg bg-brand-600 text-white text-sm font-medium hover:bg-brand-700 transition-colors">Publish Article</button>
+          </form>
+        </div>
+        <div class="p-5 rounded-xl bg-slate-50 border border-slate-100">
+          <h4 class="font-semibold text-slate-800 mb-3">Add Photo</h4>
+          <form onsubmit="addNewPhoto(event)" class="space-y-3">
+            <input type="text" id="newPhotoUrl" required placeholder="Image URL (e.g., ./images/photo.jpg)" class="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:border-brand-500 focus:ring-1 focus:ring-brand-200 outline-none">
+ <input type="text" id="newPhotoCaption" required placeholder="Caption" class="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:border-brand-500 focus:ring-1 focus:ring-brand-200 outline-none">
+ <p class="text-[11px] text-slate-400 leading-tight">Note: For security, external URLs may not preview in the sandbox. In a real deployment, use a file uploader or your own domain.</p>
+ <button type="submit" class="px-4 py-2 rounded-lg bg-brand-600 text-white text-sm font-medium hover:bg-brand-700 transition-colors">Add Photo</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="fixed bottom-6 right-6 z-[110] bg-slate-900 text-white px-5 py-3 rounded-lg shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 text-sm font-medium">
+ Notification
+  </div>
+
+  <!-- Hero -->
+  <section id="hero" class="relative min-h-[90vh] flex items-center pt-20 overflow-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-brand-50 via-white to-slate-50 -z-10"></div>
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center w-full">
+      <div class="fade-in">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-100 text-brand-800 text-xs font-semibold uppercase tracking-wider mb-6">
+          <span class="w-1.5 h-1.5 rounded-full bg-brand-600"></span>
+          Available for Research & Collaboration
+        </div>
+        <h1 class="text-5xl md:text-6xl font-serif font-bold text-slate-900 leading-[1.1] mb-6">
+          Md Mizanur <br>Rahman
+        </h1>
+        <p class="text-lg md:text-xl text-slate-600 mb-8 max-w-lg leading-relaxed">
+          Pharma Technologist and Technology Researcher at Samsung R&D Institute Bangladesh, passionate about the intersection of healthcare, machine learning, and elegant software systems.
+        </p>
+        <div class="flex flex-wrap gap-3 mb-8">
+          <a href="#articles" class="px-6 py-3 rounded-full bg-brand-700 text-white font-semibold hover:bg-brand-800 transition-all shadow-lg hover:shadow-brand-200/50">Read Articles</a>
+          <a href="#contact" class="px-6 py-3 rounded-full border border-slate-200 bg-white text-slate-700 font-semibold hover:border-brand-300 hover:text-brand-700 transition-all shadow-sm">Get in Touch</a>
+        </div>
+        <div class="flex items-center gap-6 text-slate-400">
+          <a href="https://github.com/mizanurasif" target="_blank" class="hover:text-slate-900 transition-colors flex items-center gap-2 text-sm font-medium">
+            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.570-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            GitHub
+          </a>
+          <a href="https://linkedin.com" target="_blank" class="hover:text-[#0A66C2] transition-colors flex items-center gap-2 text-sm font-medium">
+            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            LinkedIn
+          </a>
+        </div>
+      </div>
+      <div class="hidden md:flex justify-center relative fade-in">
+        <div class="absolute inset-0 bg-gradient-to-tr from-brand-200/30 to-slate-100/30 rounded-full blur-3xl -z-10"></div>
+        <div class="w-80 h-80 bg-gradient-to-br from-brand-700 to-slate-800 rounded-full flex items-center justify-center shadow-2xl ring-8 ring-white">
+          <span class="text-7xl font-serif font-bold text-white/90">MR</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="py-20 bg-white">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid md:grid-cols-12 gap-12 items-start fade-in">
+        <div class="md:col-span-4">
+          <h2 class="text-3xl md:text-4xl font-serif font-bold text-slate-900 mb-4">About Me</h2>
+          <div class="w-16 h-1 bg-brand-600 rounded-full mb-6"></div>
+          <p class="text-slate-500 leading-relaxed">Bridging the gap between pharmaceutical science and modern technology to build data-driven healthcare solutions.</p>
+        </div>
+        <div class="md:col-span-8 space-y-6 text-slate-700 leading-relaxed">
+          <p class="text-lg">
+            I am a Pharma Technologist currently contributing to research and technological innovation at <strong class="text-slate-900">Samsung R&D Institute Bangladesh</strong>.
+            With roots in both pharmaceutical sciences and computer engineering, I explore how machine learning,
+            data analytics, and software architecture can improve healthcare delivery and research.
+          </p>
+          <p>
+            My work spans pharmacological quality systems, analytical method development, and building intelligent tools
+            — from <strong>Chronic Kidney Disease detection</strong> using ML to 3D simulation systems and e-commerce platforms.
+            I believe that the health sector deserves the same engineering rigor as top-tier tech.
+          </p>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-6 pt-4">
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">
+              <div class="text-2xl font-bold text-brand-700 mb-1">23</div>
+              <div class="text-xs font-semibold text-slate-500 uppercase tracking-wide">GitHub Repos</div>
+            </div>
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">
+              <div class="text-2xl font-bold text-brand-700 mb-1">5+</div>
+              <div class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Years in R&D</div>
+            </div>
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">
+              <div class="text-2xl font-bold text-brand-700 mb-1">ML</div>
+              <div class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Healthcare AI</div>
+            </div>
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">
+              <div class="text-2xl font-bold text-brand-700 mb-1">QC</div>
+              <div class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Pharma Expert</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Articles -->
+  <section id="articles" class="py-20 bg-slate-50">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-end justify-between mb-12 fade-in">
+        <div>
+          <span class="text-brand-600 font-semibold text-sm uppercase tracking-wider">Blog</span>
+          <h2 class="text-3xl md:text-4xl font-serif font-bold text-slate-900 mt-2">Latest Articles</h2>
+        </div>
+        <button id="adminAddBtn" onclick="openAdmin()" class="hidden items-center gap-2 px-4 py-2 rounded-lg bg-brand-600 text-white text-sm font-semibold hover:bg-brand-700 transition-colors shadow-md">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          Write Post
+        </button>
+      </div>
+      <div id="articlesGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 fade-in"></div>
+      <div class="mt-10 text-center">
+        <button onclick="loadMoreArticles()" class="text-brand-700 font-semibold hover:text-brand-800 transition-colors inline-flex items-center gap-1">
+          View all articles <span class="text-xl leading-none">→</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Photo Gallery -->
+  <section id="gallery" class="py-20 bg-white">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex items-end justify-between mb-12 fade-in">
+        <div>
+          <span class="text-brand-600 font-semibold text-sm uppercase tracking-wider">Gallery</span>
+          <h2 class="text-3xl md:text-4xl font-serif font-bold text-slate-900 mt-2">Moments & Work</h2>
+        </div>
+        <button id="adminPhotoBtn" onclick="openAdmin()" class="hidden items-center gap-2 px-4 py-2 rounded-lg bg-brand-600 text-white text-sm font-semibold hover:bg-brand-700 transition-colors shadow-md">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          Add Photo
+        </button>
+      </div>
+      <div id="galleryGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 fade-in"></div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="py-20 bg-slate-50">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="mb-12 fade-in">
+        <span class="text-brand-600 font-semibold text-sm uppercase tracking-wider">Portfolio</span>
+        <h2 class="text-3xl md:text-4xl font-serif font-bold text-slate-900 mt-2">Selected Work</h2>
+        <p class="text-slate-500 mt-3 max-w-2xl">A selection of software, research, and system projects from my GitHub repositories.</p>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6 fade-in" id="projectsGrid"></div>
+      <div class="mt-10 text-center">
+        <a href="https://github.com/mizanurasif?tab=repositories" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-slate-300 text-slate-700 font-semibold hover:border-brand-500 hover:text-brand-700 transition-all bg-white">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          See all 23 repositories on GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="py-20 bg-white">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="max-w-2xl mx-auto text-center mb-12 fade-in">
+        <span class="text-brand-600 font-semibold text-sm uppercase tracking-wider">Contact</span>
+        <h2 class="text-3xl md:text-4xl font-serif font-bold text-slate-900 mt-2">Let's Work Together</h2>
+        <p class="text-slate-500 mt-3">Interested in collaboration, research, or just want to say hello? Use the form below.</p>
+      </div>
+      <div class="max-w-xl mx-auto bg-slate-50 rounded-2xl p-8 border border-slate-100 shadow-sm fade-in">
+        <form onsubmit="handleContact(event)" class="space-y-5">
+          <div class="grid md:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-xs font-semibold uppercase text-slate-500 mb-1.5">Name</label>
+              <input type="text" required class="w-full px-4 py-2.5 rounded-lg border border-slate-200 bg-white focus:border-brand-500 focus:ring-2 focus:ring-brand-200 outline-none transition-all" placeholder="Your name">
+ </div>
+            <div>
+              <label class="block text-xs font-semibold uppercase text-slate-500 mb-1.5">Email</label>
+              <input type="email" required class="w-full px-4 py-2.5 rounded-lg border border-slate-200 bg-white focus:border-brand-500 focus:ring-2 focus:ring-brand-200 outline-none transition-all" placeholder="you@example.com">
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold uppercase text-slate-500 mb-1.5">Subject</label>
+            <input type="text" required class="w-full px-4 py-2.5 rounded-lg border border-slate-200 bg-white focus:border-brand-500 focus:ring-2 focus:ring-brand-200 outline-none transition-all" placeholder="Collaboration, research inquiry...">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold uppercase text-slate-500 mb-1.5">Message</label>
+            <textarea required rows="4" class="w-full px-4 py-2.5 rounded-lg border border-slate-200 bg-white focus:border-brand-500 focus:ring-2 focus:ring-brand-200 outline-none transition-all resize-none" placeholder="Tell me about your project or question..."></textarea>
+          </div>
+          <button type="submit" class="w-full py-3 rounded-lg bg-brand-700 text-white font-semibold hover:bg-brand-800 transition-all shadow-lg">
+ Send Message
+          </button>
+          <p id="formNotice" class="text-center text-xs text-slate-400 hidden">In a live site, this form connects to a secure backend or Formspree.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-slate-300 py-12 border-t border-slate-800">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+      <div class="text-center md:text-left">
+        <h4 class="text-white font-serif font-bold text-lg">M.M.R.</h4>
+        <p class="text-sm text-slate-400 mt-1">Pharma Technologist & Researcher</p>
+      </div>
+      <div class="flex items-center gap-6">
+        <a href="#hero" class="text-sm hover:text-white transition-colors">Home</a>
+        <a href="#articles" class="text-sm hover:text-white transition-colors">Articles</a>
+        <a href="#projects" class="text-sm hover:text-white transition-colors">Projects</a>
+        <a href="#contact" class="text-sm hover:text-white transition-colors">Contact</a>
+      </div>
+      <div class="text-xs text-slate-500">
+        © <span id="year"></span> Md Mizanur Rahman. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    let currentUser = null;
+    const fakeUsers = [{ username: 'admin', password: 'admin123' }];
+
+    const articles = [
+      {
+        id: 1,
+        title: 'Chronic Kidney Disease Detection Using Machine Learning',
+        body: 'Modern healthcare is increasingly data-driven. In this article, I walk through building and validating a predictive model for early-stage CKD detection using Python, scikit-learn, and clinical biomarker datasets. We explore feature engineering, decision boundary tuning, and the importance of explainable AI in clinical settings.',
+        date: '2026-06-15',
+        tags: ['Machine Learning', 'Healthcare', 'Python'],
+        comments: [{ user: 'guest1', text: 'Great write-up on the model interpretation part!' }]
+      },
+      {
+        id: 2,
+        title: 'Bridging Pharma QC with Software Engineering',
+        body: 'Working in pharmaceutical quality control and tech R&D simultaneously gives a unique perspective on process validation. This article discusses how principles from software testing — automated validation, regression testing, and CI/CD — map naturally onto analytical method development in the pharma industry.',
+        date: '2026-05-20',
+        tags: ['Pharma', 'QC', 'Engineering'],
+        comments: []
+      },
+      {
+        id: 3,
+        title: 'Designing a Smart Simulation with OpenGL 3.3',
+        body: 'Computer graphics are not just for games. A 3D bus terminal simulation project allowed me to explore spatial layout optimization algorithms, collision detection, and real-time rendering architectures useful for logistics and urban planning stakeholders.',
+        date: '2026-04-10',
+        tags: ['OpenGL', 'C++', 'Simulation'],
+        comments: []
+      }
+    ];
+
+    const photos = [
+      { id: 1, src: 'https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?w=600&h=400&fit=crop', caption: 'Laboratory research work' },
+      { id: 2, src: 'https://images.unsplash.com/photo-1576086213369-97a306d36557?w=600&h=400&fit=crop', caption: 'Analytical equipment' },
+      { id: 3, src: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=600&h=400&fit=crop', caption: 'R&D facility' },
+      { id: 4, src: 'https://images.unsplash.com/photo-1579165466741-7f35d475457b?w=600&h=400&fit=crop', caption: 'Pharma quality systems' }
+    ];
+
+    const projects = [
+      { title: 'Chronic Kidney Disease Detection using ML', desc: 'A Jupyter Notebook-based machine learning pipeline for predicting CKD from clinical attributes. Features data preprocessing, feature selection, and model evaluation.', tags: ['Jupyter', 'Python', 'ML'], stars: 2, forks: 1, url: 'https://github.com/mizanurasif/Chronic-Kidney-Disease-Detection-using-ML' },
+      { title: '3D Bus Terminal Design using OpenGL 3.3', desc: 'A real-time 3D bus terminal simulation built with OpenGL 3.3 and C++. Demonstrates camera systems, lighting models, and object-oriented scene graph architecture.', tags: ['C++', 'OpenGL', 'Graphics'], stars: 2, forks: 0, url: 'https://github.com/mizanurasif/3D-bus-terminal-Design-using-Opengl-3.3' },
+      { title: 'A Shoe E-Commerce Website', desc: 'Full-stack ASP.NET web application for online retail. Includes catalog management, user authentication, cart functionality, and order processing.', tags: ['ASP.NET', 'C#', 'Web'], stars: 1, forks: 0, url: 'https://github.com/mizanurasif/A-Shoe-E-Commerce-Website-using-asp.net-' },
+      { title: 'Compiler Design using Flex and Bison', desc: 'Academic compiler construction project covering lexical analysis, parsing, and intermediate code generation using POSIX tools Flex and Bison.', tags: ['C', 'Compiler', 'Theory'], stars: 1, forks: 0, url: 'https://github.com/mizanurasif/Compiler-Design-using-Flex-and-Bison' }
+    ];
+
+    function renderArticles() {
+      const grid = document.getElementById('articlesGrid');
+      let html = '';
+      for (const article of articles) {
+        const tagsHtml = article.tags.map(tag => '<span class="px-2.5 py-0.5 rounded-md bg-brand-50 text-brand-700 text-[10px] font-bold uppercase tracking-wider">' + tag + '</span>').join('');
+        const commentsList = article.comments.map(c => '<div class="text-xs text-slate-600 border-l-2 border-brand-200 pl-2"><strong class="text-slate-800">' + escapeHtml(c.user) + '</strong>: ' + escapeHtml(c.text) + '</div>').join('');
+        const hasComments = article.comments.length > 0;
+
+        let commentForm = '';
+        if (currentUser) {
+          commentForm = '<form onsubmit="addComment(event, ' + article.id + ')" class="flex gap-2 mt-2">' +
+ '<input type="text" required placeholder="Write a comment..." class="flex-1 min-w-0 px-3 py-1.5 rounded-md border border-slate-200 text-xs focus:border-brand-500 outline-none">' +
+            '<button type="submit" class="px-3 py-1.5 rounded-md bg-brand-700 text-white text-xs font-semibold hover:bg-brand-800 transition-colors">Post</button>' +
+ '</form>';
+        } else {
+          commentForm = '<p class="text-[11px] text-slate-400 mt-1">Login to add a comment.</p>';
+        }
+
+        html += '<article class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full">' +
+          '<div class="flex flex-wrap gap-2 mb-3">' + tagsHtml + '</div>' +
+          '<h3 class="text-xl font-serif font-bold text-slate-900 mb-2 leading-snug">' + escapeHtml(article.title) + '</h3>' +
+          '<time class="text-xs text-slate-400 font-medium mb-3 block">' + new Date(article.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) + '</time>' +
+          '<p class="text-sm text-slate-600 leading-relaxed line-clamp-3 mb-4 flex-1">' + escapeHtml(article.body) + '</p>' +
+          '<div class="border-t border-slate-100 pt-4 mt-auto">' +
+            '<button onclick="toggleComments(' + article.id + ')" class="text-xs font-semibold text-slate-500 hover:text-brand-700 transition-colors mb-2 flex items-center gap-1">' +
+              '💬 ' + article.comments.length + ' Comment' + (article.comments.length !== 1 ? 's' : '') +
+            '</button>' +
+            '<div id="comments-' + article.id + '" class="hidden mt-3 space-y-2">' +
+              '<div class="bg-slate-50 rounded-lg p-3 max-h-32 overflow-y-auto space-y-2">' +
+ (hasComments ? commentsList : '<p class="text-xs text-slate-400 italic">No comments yet.</p>') +
+              '</div>' + commentForm +
+ '</div>' +
+          '</div>' +
+        '</article>';
+      }
+      grid.innerHTML = html;
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function renderGallery() {
+      const grid = document.getElementById('galleryGrid');
+      grid.innerHTML = photos.map(photo => {
+        return '<div class="group relative overflow-hidden rounded-xl aspect-square bg-slate-100 cursor-pointer">' +
+          '<img src="' + photo.src + '" alt="' + escapeHtml(photo.caption) + '" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" onerror="this.src=\'https://via.placeholder.com/400x400?text=Image+Unavailable\'">' +
+          '<div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">' +
+            '<span class="text-white text-sm font-medium">' + escapeHtml(photo.caption) + '</span>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    function renderProjects() {
+      const grid = document.getElementById('projectsGrid');
+      grid.innerHTML = projects.map(p => {
+        const tags = p.tags.map(t => '<span class="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-[10px] font-bold uppercase">' + t + '</span>').join('');
+ return '<a href="' + p.url + '" target="_blank" class="block bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">' +
+          '<div class="flex items-start justify-between mb-3">' +
+            '<div class="flex flex-wrap gap-2">' + tags + '</div>' +
+            '<div class="flex items-center gap-3 text-xs text-slate-400">' +
+              '<span>⭐ ' + p.stars + '</span>' +
+              '<span>🍴 ' + p.forks + '</span>' +
+            '</div>' +
+          '</div>' +
+          '<h3 class="text-lg font-bold text-slate-900 mb-2 group-hover:text-brand-700 transition-colors">' + escapeHtml(p.title) + '</h3>' +
+          '<p class="text-sm text-slate-600 leading-relaxed">' + escapeHtml(p.desc) + '</p>' +
+        '</a>';
+      }).join('');
+    }
+
+    function openAuth() {
+      if (currentUser) { logout(); return; }
+      const m = document.getElementById('authModal');
+      m.classList.remove('hidden');
+      m.classList.add('flex');
+    }
+    function closeAuth() {
+      const m = document.getElementById('authModal');
+      m.classList.add('hidden');
+      m.classList.remove('flex');
+    }
+
+    let authMode = 'login';
+    function toggleAuthMode() {
+      authMode = authMode === 'login' ? 'register' : 'login';
+      document.getElementById('authTitle').textContent = authMode === 'login' ? 'Welcome Back' : 'Create Account';
+      document.getElementById('authActionBtn').textContent = authMode === 'login' ? 'Login' : 'Create Account';
+    }
+
+    function handleAuth(e) {
+      e.preventDefault();
+      const username = document.getElementById('authUsername').value.trim();
+      const password = document.getElementById('authPassword').value;
+      if (authMode === 'login') {
+        const user = fakeUsers.find(u => u.username === username && u.password === password);
+        if (user) {
+          currentUser = user;
+          closeAuth();
+          updateAuthUI();
+          renderArticles();
+          showToast('Welcome back, ' + username + '!');
+        } else {
+          showToast('Invalid credentials. Try admin / admin123', true);
+        }
+      } else {
+        if (fakeUsers.find(u => u.username === username)) {
+          showToast('Username already exists.', true);
+        } else {
+          fakeUsers.push({ username, password });
+          currentUser = { username, password };
+          closeAuth();
+          updateAuthUI();
+          renderArticles();
+          showToast('Account created successfully!');
+        }
+      }
+    }
+
+    function logout() {
+      currentUser = null;
+      updateAuthUI();
+      renderArticles();
+      showToast('Logged out.');
+    }
+
+    function updateAuthUI() {
+      const btn = document.getElementById('authBtn');
+      const addBtn = document.getElementById('adminAddBtn');
+      const photoBtn = document.getElementById('adminPhotoBtn');
+      if (currentUser) {
+        btn.textContent = 'Logout';
+        addBtn.classList.remove('hidden');
+        addBtn.classList.add('flex');
+        photoBtn.classList.remove('hidden');
+        photoBtn.classList.add('flex');
+        showToast('Admin controls enabled. You can now comment and add content.');
+      } else {
+        btn.textContent = 'Login';
+        addBtn.classList.add('hidden');
+        addBtn.classList.remove('flex');
+        photoBtn.classList.add('hidden');
+        photoBtn.classList.remove('flex');
+      }
+    }
+
+    function openAdmin() {
+      if (!currentUser) { openAuth(); return; }
+      const m = document.getElementById('adminModal');
+      m.classList.remove('hidden');
+      m.classList.add('flex');
+    }
+    function closeAdmin() {
+      const m = document.getElementById('adminModal');
+      m.classList.add('hidden');
+      m.classList.remove('flex');
+    }
+
+    function addNewArticle(e) {
+      e.preventDefault();
+      const title = document.getElementById('newArticleTitle').value;
+      const body = document.getElementById('newArticleBody').value;
+      const tagsRaw = document.getElementById('newArticleTags').value;
+      const tags = tagsRaw ? tagsRaw.split(',').map(s => s.trim()).filter(Boolean) : ['Article'];
+      articles.unshift({ id: Date.now(), title, body, date: new Date().toISOString().split('T')[0], tags, comments: [] });
+      renderArticles();
+      e.target.reset();
+      closeAdmin();
+      showToast('Article published!');
+    }
+
+    function addNewPhoto(e) {
+      e.preventDefault();
+      const src = document.getElementById('newPhotoUrl').value;
+      const caption = document.getElementById('newPhotoCaption').value;
+      photos.unshift({ id: Date.now(), src, caption });
+      renderGallery();
+      e.target.reset();
+      closeAdmin();
+      showToast('Photo added!');
+    }
+
+    function toggleComments(articleId) {
+      const el = document.getElementById('comments-' + articleId);
+      if (el) el.classList.toggle('hidden');
+    }
+
+    function addComment(e, articleId) {
+      e.preventDefault();
+      if (!currentUser) return;
+      const input = e.target.querySelector('input');
+      const text = input.value.trim();
+      if (!text) return;
+      const article = articles.find(a => a.id === articleId);
+      if (article) {
+        article.comments.push({ user: currentUser.username, text });
+        renderArticles();
+        setTimeout(() => {
+          const el = document.getElementById('comments-' + articleId);
+          if (el) el.classList.remove('hidden');
+        }, 10);
+      }
+    }
+
+    function handleContact(e) {
+      e.preventDefault();
+      showToast('Message sent successfully!');
+      e.target.reset();
+      document.getElementById('formNotice').classList.remove('hidden');
+    }
+
+    let toastTimer;
+    function showToast(message, isError) {
+      const t = document.getElementById('toast');
+      t.textContent = message;
+      const base = 'fixed bottom-6 right-6 z-[110] px-5 py-3 rounded-lg shadow-2xl transform transition-all duration-300 text-sm font-medium translate-y-0 opacity-100 ';
+      t.className = base + (isError ? 'bg-red-600 text-white' : 'bg-slate-900 text-white');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        t.classList.add('translate-y-20', 'opacity-0');
+      }, 3000);
+    }
+
+    function toggleMobileMenu() {
+      const m = document.getElementById('mobileMenu');
+      m.classList.toggle('hidden');
+      m.classList.toggle('flex');
+    }
+
+    function loadMoreArticles() {
+      showToast('In a full deployment, this loads from a CMS or database.');
+    }
+
+    function observeAnimations() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) entry.target.classList.add('visible');
+ });
+      }, { threshold: 0.1 });
+      document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('year').textContent = new Date().getFullYear();
+      renderArticles();
+      renderGallery();
+      renderProjects();
+      observeAnimations();
+    });
+
+    document.getElementById('authModal').addEventListener('click', e => { if(e.target === e.currentTarget) closeAuth(); });
+    document.getElementById('adminModal').addEventListener('click', e => { if(e.target === e.currentTarget) closeAdmin(); });
+  </script>
+</body>
+</html>
